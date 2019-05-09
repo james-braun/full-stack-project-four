@@ -66,9 +66,6 @@ class Game {
         for (var i = 0; i < 5; i += 1) {
             scoreboard.getElementsByTagName('ol')[0].innerHTML += '<li class="tries"><img src="images/liveHeart.png" alt="Heart Icon" height="35" width="30"></li>';
         }
-        document.getElementById('qwerty').removeEventListener('click', function (event) {
-            game.handleInteractions(event);
-        });
     }
  
     handleInteractions(button) {
