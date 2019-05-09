@@ -10,7 +10,12 @@ document.getElementById('btn__reset').addEventListener('click', function () {
     game.startGame();
     document.getElementById('qwerty').addEventListener('click', function (event) {
         if (event.target.tagName === "BUTTON") {
-            game.handleInteractions(event);
+            game.handleInteractions(event.target.textContent);
+        }
+    });
+    document.addEventListener('keyup', function (event) {
+        if (/[a-z]/.test(event.key)) {
+            game.handleInteractions(event.key);
         }
     });
 });

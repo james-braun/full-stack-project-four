@@ -20,7 +20,6 @@ class Game {
     startGame() {
         document.getElementById('overlay').style.display = 'none';
         this.activePhrase = this.getRandomPhrase()
-        console.log(this.activePhrase);
         this.activePhrase.addPhraseToDisplay();
     }
 
@@ -34,7 +33,6 @@ class Game {
     }
 
     removeLife() {
-        console.log(this.missed);
         var scoreboard = document.getElementById('scoreboard');
         scoreboard.getElementsByTagName('ol')[0].removeChild(scoreboard.getElementsByTagName('li')[0]);
         scoreboard.getElementsByTagName('ol')[0].innerHTML += '<li class="tries"><img src="images/lostHeart.png" alt="Heart Icon" height="35" width="30"></li>';
@@ -68,18 +66,25 @@ class Game {
         }
     }
  
-    handleInteractions(button) {
-        button.target.disabled = true;
-        if (game.activePhrase.checkLetter(button.target.textContent)) {
-            button.target.className = 'key chosen';
-            game.activePhrase.showMatchedLetter(button.target.textContent);
+    handleInteractions(key) {
+        const buttons = document.getElementsByTagName('button');
+        var i = 1;
+        while (i < buttons.length) {
+            if (buttons[i].textContent === key) {
+                buttons[i].disabled = true;
+                break;
+            }
+            i += 1;
+        }
+        if (game.activePhrase.checkLetter(key)) {
+            buttons[i].className = 'key chosen';
+            game.activePhrase.showMatchedLetter(buttons[i].textContent);
             if (game.checkForWin()) {
                 game.gameOver(true);
             }
         } else {
-            console.log(button.target.className);
-            if (button.target.className != 'key wrong') {
-                button.target.className = 'key wrong';
+            if (buttons[i].className != 'key wrong') {
+                buttons[i].className = 'key wrong';
                 game.removeLife();
             }
 
