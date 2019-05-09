@@ -9,7 +9,9 @@ document.getElementById('btn__reset').addEventListener('click', function () {
     game.createPhrases(phrases);
     game.startGame();
     document.getElementById('qwerty').addEventListener('click', function (event) {
-        game.handleInteractions(event);
+        if (event.target.tagName === "BUTTON") {
+            game.handleInteractions(event);
+        }
     });
 });
 

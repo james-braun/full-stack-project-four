@@ -45,7 +45,7 @@ class Game {
     }
 
     gameOver(gameWon) {
-        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('overlay').style.display = 'flex';
         if (gameWon) {
             document.getElementById('game-over-message').innerHTML = "You Win!"
             document.getElementById('overlay').className = 'win';
@@ -72,22 +72,20 @@ class Game {
     }
  
     handleInteractions(button) {
-        if (button.target.tagName === "BUTTON") {
-            button.target.disabled = true;
-            if (game.activePhrase.checkLetter(button.target.textContent)) {
-                button.target.className = 'key chosen';
-                game.activePhrase.showMatchedLetter(button.target.textContent);
-                if (game.checkForWin()) {
-                    game.gameOver(true);
-                }
-            } else {
-                console.log(button.target.className);
-                if (button.target.className != 'key wrong') {
-                    button.target.className = 'key wrong';
-                    game.removeLife();
-                }
-
+        button.target.disabled = true;
+        if (game.activePhrase.checkLetter(button.target.textContent)) {
+            button.target.className = 'key chosen';
+            game.activePhrase.showMatchedLetter(button.target.textContent);
+            if (game.checkForWin()) {
+                game.gameOver(true);
             }
+        } else {
+            console.log(button.target.className);
+            if (button.target.className != 'key wrong') {
+                button.target.className = 'key wrong';
+                game.removeLife();
+            }
+
         }
     }
 }
