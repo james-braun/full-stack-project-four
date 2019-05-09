@@ -9,29 +9,46 @@ class Game {
         this.activePhrase = null;
     }
 
+    // this function creates an array of Phrase objects.
     createPhrases(phrases) {
-        this.phrases = [new Phrase(phrases[0]), new Phrase(phrases[1]), new Phrase(phrases[2]), new Phrase(phrases[3]), new Phrase(phrases[4])];
+        for (var i = 0; i < phrases.length; i += 1) {
+            this.phrases.push(new Phrase(phrases[i]));
+        }
     }
 
+    // this function returns a random Phrase object to startGame().
     getRandomPhrase() {
         return this.phrases[Math.floor(Math.random() * this.phrases.length)];
     }
 
+    // this function hides the initial screen and gets a Phrase
+    // and adds it to the display. 
     startGame() {
         document.getElementById('overlay').style.display = 'none';
         this.activePhrase = this.getRandomPhrase()
         this.activePhrase.addPhraseToDisplay();
     }
 
+    // this function checks to see if the game has been won.
     checkForWin() {
-        for (var listItem = 0; listItem < document.getElementById('phrase').getElementsByTagName('li').length; listItem += 1) {
-            if (document.getElementById('phrase').getElementsByTagName('li')[listItem].className.split(' ')[0] === 'hide') {
+
+        // varible to hold all the phrase list items.
+        var listItems = document.getElementById('phrase').getElementsByTagName('li');
+
+        // check all the list items in "listItems" if one of them 
+        // is a letter that hasn't been "chosen" return false else
+        // return true.
+        for (var i = 0; i < listItems.length; i += 1) {
+            if (listItems[i].className.split(' ')[0] === 'hide') {
                 return false;
             }
         }
         return true;
     }
 
+    // this function changes a "liveheart" to a "lostheart" and increaments
+    // the number of misses. if the number of misses equals 5 then it
+    // ends the game.
     removeLife() {
         var scoreboard = document.getElementById('scoreboard');
         scoreboard.getElementsByTagName('ol')[0].removeChild(scoreboard.getElementsByTagName('li')[0]);
@@ -42,7 +59,11 @@ class Game {
         }
     }
 
+    // this function displays the won/lost screen and
+    // resets the game.
     gameOver(gameWon) {
+
+        // display "win" or "lose" screen.
         document.getElementById('overlay').style.display = 'flex';
         if (gameWon) {
             document.getElementById('game-over-message').innerHTML = "You Win!"
@@ -52,23 +73,38 @@ class Game {
             document.getElementById('overlay').className = 'lose';
 
         }
-        let buttons = document.getElementsByTagName('button');
-        for (var i = 1; i < buttons.length; i += 1) {
+
+        // reset the keyboard so that all keys are enabled and show the right color.
+        let buttons = document.getElementById('qwerty').getElementsByTagName('button');
+        for (var i = 0; i < buttons.length; i += 1) {
             buttons[i].className = 'key';
             buttons[i].disabled = false;
         }
+
+        // reset the "scoreboard" hearts to all "liveHearts"
         var scoreboard = document.getElementById('scoreboard');
+
+        // remove all hearts from scoreboard.
         for (var i = 0; i < 5; i += 1) {
             scoreboard.getElementsByTagName('ol')[0].removeChild(scoreboard.getElementsByTagName('li')[0]);
         }
+
+        // add back five "liveHearts"
         for (var i = 0; i < 5; i += 1) {
             scoreboard.getElementsByTagName('ol')[0].innerHTML += '<li class="tries"><img src="images/liveHeart.png" alt="Heart Icon" height="35" width="30"></li>';
         }
     }
- 
+
+    // this function checks to see if the button clicked or pressed by the player matches a letter
+    // in the phrase, and then directs the game based on a correct or incorrect guess.
     handleInteractions(key) {
-        const buttons = document.getElementsByTagName('button');
-        var i = 1;
+
+        // varible holding the buttons of the keyboard.
+        const buttons = document.getElementById('qwerty').getElementsByTagName('button');
+
+        // Search though the list of buttons and disable the one
+        // matching the key 'clicked' or 'pressed'
+        var i = 0;
         while (i < buttons.length) {
             if (buttons[i].textContent === key) {
                 buttons[i].disabled = true;
@@ -76,18 +112,22 @@ class Game {
             }
             i += 1;
         }
+
+        // if key 'clicked' or 'pressed' is in the phrase
+        // change its color to blue and show it on the display
+        // and check to see if the game is won.
         if (game.activePhrase.checkLetter(key)) {
             buttons[i].className = 'key chosen';
-            game.activePhrase.showMatchedLetter(buttons[i].textContent);
+            game.activePhrase.showMatchedLetter(key);
             if (game.checkForWin()) {
                 game.gameOver(true);
             }
-        } else {
-            if (buttons[i].className != 'key wrong') {
+
+        // else if not eventhandler error change its color
+        // to orange and remove "liveHeart"
+        } else if (buttons[i].className != 'key wrong') {
                 buttons[i].className = 'key wrong';
                 game.removeLife();
-            }
-
         }
     }
 }
