@@ -25,7 +25,7 @@ class Game {
     // and adds it to the display. 
     startGame() {
         document.getElementById('overlay').style.display = 'none';
-        this.activePhrase = this.getRandomPhrase()
+        this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
     }
 
@@ -66,10 +66,10 @@ class Game {
         // display "win" or "lose" screen.
         document.getElementById('overlay').style.display = 'flex';
         if (gameWon) {
-            document.getElementById('game-over-message').innerHTML = "You Win!"
+            document.getElementById('game-over-message').innerHTML = "You Win!";
             document.getElementById('overlay').className = 'win';
         } else {
-            document.getElementById('game-over-message').innerHTML = "You Lose!"
+            document.getElementById('game-over-message').innerHTML = "You Lose!";
             document.getElementById('overlay').className = 'lose';
 
         }
@@ -116,18 +116,18 @@ class Game {
         // if key 'clicked' or 'pressed' is in the phrase
         // change its color to blue and show it on the display
         // and check to see if the game is won.
-        if (game.activePhrase.checkLetter(key)) {
+        if (this.activePhrase.checkLetter(key)) {
             buttons[i].className = 'key chosen';
-            game.activePhrase.showMatchedLetter(key);
-            if (game.checkForWin()) {
-                game.gameOver(true);
+            this.activePhrase.showMatchedLetter(key);
+            if (this.checkForWin()) {
+                this.gameOver(true);
             }
 
         // else if not eventhandler error change its color
         // to orange and remove "liveHeart"
         } else if (buttons[i].className != 'key wrong') {
                 buttons[i].className = 'key wrong';
-                game.removeLife();
+                this.removeLife();
         }
     }
 }
