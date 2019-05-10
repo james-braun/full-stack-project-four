@@ -121,7 +121,7 @@ class Game {
         // change its color to blue and show it on the display
         // and check to see if the game is won.
         if (this.activePhrase.checkLetter(key)) {
-            buttons[i].className = 'key chosen';
+            buttons[i].className = 'chosen';
             this.activePhrase.showMatchedLetter(key);
             if (this.checkForWin()) {
                 this.gameOver(true);
@@ -130,7 +130,7 @@ class Game {
         // else change its color
         // to orange and remove "liveHeart"
         } else {
-            buttons[i].className = 'key wrong';
+            buttons[i].className = 'wrong';
             this.removeLife();
         }
     }
