@@ -93,6 +93,10 @@ class Game {
         for (var i = 0; i < 5; i += 1) {
             scoreboard.getElementsByTagName('ol')[0].innerHTML += '<li class="tries"><img src="images/liveHeart.png" alt="Heart Icon" height="35" width="30"></li>';
         }
+
+        // remove event listeners before new game initializes a second one.
+        document.getElementById('qwerty').removeEventListener('click', button);
+        document.removeEventListener('keyup', key); 
     }
 
     // this function checks to see if the button clicked or pressed by the player matches a letter
@@ -123,11 +127,11 @@ class Game {
                 this.gameOver(true);
             }
 
-        // else if not eventhandler error change its color
+        // else change its color
         // to orange and remove "liveHeart"
-        } else if (buttons[i].className != 'key wrong') {
-                buttons[i].className = 'key wrong';
-                this.removeLife();
+        } else {
+            buttons[i].className = 'key wrong';
+            this.removeLife();
         }
     }
 }
